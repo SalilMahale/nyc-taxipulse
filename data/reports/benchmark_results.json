@@ -1,0 +1,156 @@
+{
+  "generated_at": "2026-09-12T10:25:28",
+  "environment": {
+    "platform": "Linux-6.18.44-fc-v32-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "pyspark": "3.5.1",
+    "cpu_cores": 1,
+    "ram_gb": 4.2,
+    "driver_memory": "2g",
+    "dataset_files": [
+      "yellow_tripdata_2026-01.parquet",
+      "yellow_tripdata_2026-02.parquet",
+      "yellow_tripdata_2026-03.parquet",
+      "yellow_tripdata_2026-04.parquet",
+      "yellow_tripdata_2026-05.parquet"
+    ],
+    "dataset_rows": 18999282,
+    "dataset_size_mb": 325.3,
+    "one_month_file": "yellow_tripdata_2026-01.parquet",
+    "one_month_rows": 3724889
+  },
+  "repeats": 3,
+  "query": "trips per (pickup zone, pickup hour)",
+  "results": [
+    {
+      "experiment": "1_single_machine_vs_spark",
+      "approach": "pandas (single process)",
+      "scope": "full",
+      "rows": 18999282,
+      "median_seconds": 2.73,
+      "runs_seconds": [
+        4.79,
+        2.73,
+        1.52
+      ],
+      "note": "pandas already benefits from column pruning; it is the strongest fair single-machine baseline"
+    },
+    {
+      "experiment": "1_single_machine_vs_spark",
+      "approach": "spark DataFrame local[*]",
+      "scope": "full",
+      "rows": 18999282,
+      "median_seconds": 3.47,
+      "runs_seconds": [
+        6.19,
+        3.47,
+        2.99
+      ],
+      "note": "includes Spark job scheduling overhead; on a 1-core machine Spark cannot parallelise"
+    },
+    {
+      "experiment": "4_column_pruning",
+      "approach": "spark read all 20 columns",
+      "scope": "full",
+      "rows": 18999282,
+      "median_seconds": 2.8,
+      "runs_seconds": [
+        2.8,
+        3.08,
+        2.72
+      ],
+      "note": "Catalyst still prunes unused columns at plan time; difference shows optimiser effect"
+    },
+    {
+      "experiment": "4_column_pruning",
+      "approach": "spark read 2 columns",
+      "scope": "full",
+      "rows": 18999282,
+      "median_seconds": 2.61,
+      "runs_seconds": [
+        2.7,
+        2.52,
+        2.61
+      ],
+      "note": ""
+    },
+    {
+      "experiment": "2_parquet_vs_csv",
+      "approach": "spark on Parquet (64.2 MB)",
+      "scope": "1 month",
+      "rows": 3724889,
+      "median_seconds": 0.81,
+      "runs_seconds": [
+        0.81,
+        0.91,
+        0.79
+      ],
+      "note": ""
+    },
+    {
+      "experiment": "2_parquet_vs_csv",
+      "approach": "spark on CSV (417.1 MB)",
+      "scope": "1 month",
+      "rows": 3724889,
+      "median_seconds": 4.82,
+      "runs_seconds": [
+        7.38,
+        4.7,
+        4.82
+      ],
+      "note": "CSV must parse every byte of every row; Parquet reads only the 2 needed columns"
+    },
+    {
+      "experiment": "3_mapreduce_vs_dataframe",
+      "approach": "RDD map + reduceByKey (MapReduce)",
+      "scope": "1 month",
+      "rows": 3724889,
+      "median_seconds": 24.49,
+      "runs_seconds": [
+        25.89,
+        24.49,
+        24.25
+      ],
+      "note": "Python lambdas serialise every row through the JVM<->Python bridge"
+    },
+    {
+      "experiment": "3_mapreduce_vs_dataframe",
+      "approach": "DataFrame groupBy (Catalyst/Tungsten)",
+      "scope": "1 month",
+      "rows": 3724889,
+      "median_seconds": 0.78,
+      "runs_seconds": [
+        1.01,
+        0.78,
+        0.72
+      ],
+      "note": ""
+    },
+    {
+      "experiment": "5_core_scaling",
+      "approach": "spark local[1] (1 cores)",
+      "scope": "full",
+      "rows": 18999282,
+      "median_seconds": 2.51,
+      "runs_seconds": [
+        2.98,
+        2.27,
+        2.51
+      ],
+      "note": "identical when the machine has a single core"
+    },
+    {
+      "experiment": "5_core_scaling",
+      "approach": "spark local[*] (1 cores)",
+      "scope": "full",
+      "rows": 18999282,
+      "median_seconds": 2.57,
+      "runs_seconds": [
+        2.89,
+        2.57,
+        2.31
+      ],
+      "note": "identical when the machine has a single core"
+    }
+  ]
+}

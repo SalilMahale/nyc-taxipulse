@@ -1,0 +1,6 @@
+payment_type,trip_count,avg_fare,avg_total,avg_distance_mi,avg_duration_min,avg_tip_pct,total_revenue,payment_name
+1,11865882,19.37,29.43,3.38,17.89,24.76,349171172.73,Credit card
+0,4380849,26.06,32.63,3.65,18.24,,142950366.1,Flex Fare / Unknown
+2,1542901,19.15,24.85,3.31,16.03,,38338050.48,Cash
+4,80121,21.56,27.71,3.83,16.59,,2220334.53,Dispute
+3,34870,18.07,23.84,2.96,14.91,,831178.19,No charge

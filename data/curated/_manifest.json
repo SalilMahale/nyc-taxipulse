@@ -1,0 +1,18 @@
+{
+  "overview": {
+    "total_trips": 17904623,
+    "total_revenue": 533511102.03,
+    "avg_fare": 21.0,
+    "avg_total": 29.8,
+    "avg_distance_mi": 3.44,
+    "avg_duration_min": 17.8,
+    "avg_tip_pct_card": 24.76,
+    "avg_passengers": 1.24,
+    "date_from": "2026-01-01",
+    "date_to": "2026-05-31",
+    "days_covered": 151,
+    "active_pickup_zones": 260,
+    "avg_trips_per_day": 118573.7
+  },
+  "hourly_zone_demand_rows": 577957
+}

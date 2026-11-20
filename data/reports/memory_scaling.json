@@ -1,0 +1,74 @@
+{
+  "generated_at": "2026-09-17T21:31:12",
+  "experiment": "6_memory_scaling",
+  "workload": "read all 20 columns, derive duration, aggregate 8 measures by (zone, hour, payment type)",
+  "environment": {
+    "platform": "Linux-6.18.44-fc-v33-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "cpu_cores": 1,
+    "ram_gb": 4.2,
+    "guard_rail_gb": 0.0,
+    "spark_driver_memory": "2g"
+  },
+  "measurements": [
+    {
+      "months": 1,
+      "rows": 3724889,
+      "input_mb": 64.2,
+      "pandas": {
+        "status": "completed",
+        "seconds": 4.65,
+        "result_rows": 18171,
+        "peak_rss_gb": 1.55
+      },
+      "spark": {
+        "status": "completed",
+        "seconds": 9.15,
+        "result_rows": 18171,
+        "driver_memory": "2g"
+      }
+    },
+    {
+      "months": 2,
+      "rows": 7124755,
+      "input_mb": 122.8,
+      "pandas": {
+        "status": "completed",
+        "seconds": 5.78,
+        "result_rows": 19876,
+        "peak_rss_gb": 3.19
+      },
+      "spark": {
+        "status": "completed",
+        "seconds": 1.97,
+        "result_rows": 19876,
+        "driver_memory": "2g"
+      }
+    },
+    {
+      "months": 3,
+      "rows": 11077206,
+      "input_mb": 190.7,
+      "pandas": {
+        "status": "killed_by_os",
+        "exit_code": -9,
+        "note": "the child was terminated by the OS out-of-memory killer before it could report \u2014 the clearest possible evidence that the job did not fit",
+        "stderr_tail": ""
+      },
+      "spark": {
+        "status": "completed",
+        "seconds": 2.1,
+        "result_rows": 21008,
+        "driver_memory": "2g"
+      }
+    }
+  ],
+  "analysis": {
+    "gb_per_million_rows": 0.482,
+    "memory_amplification_vs_parquet": 26.0,
+    "projected_max_rows_on_this_machine": 6970954,
+    "projected_max_months": 2.0,
+    "assumption": "linear growth, 3.4 GB usable of 4.2 GB total"
+  },
+  "caveat": "peak_rss_gb is real physical memory touched by the pandas process. A 'guard_rail_tripped' status reflects the virtual-address safety cap, not a proven physical-memory limit."
+}

@@ -1,0 +1,78 @@
+{
+  "generated_at": "2026-09-12T10:16:03",
+  "target": "trips per hour per pickup zone",
+  "zones_modelled": 143,
+  "train_period": [
+    "2026-01-08 00:00:00",
+    "2026-04-30 23:00:00"
+  ],
+  "test_period": [
+    "2026-05-01 00:00:00",
+    "2026-05-31 23:00:00"
+  ],
+  "train_rows": 387816,
+  "test_rows": 106392,
+  "seed": 42,
+  "models": {
+    "baseline_same_hour_last_week": {
+      "features": [
+        "lag_168h"
+      ],
+      "MAE": 8.959,
+      "RMSE": 21.181,
+      "R2": 0.9116
+    },
+    "baseline_zone_hour_dow_mean": {
+      "features": [
+        "zone_hour_dow_mean"
+      ],
+      "MAE": 7.256,
+      "RMSE": 17.448,
+      "R2": 0.94
+    },
+    "baseline_previous_hour": {
+      "features": [
+        "lag_1h"
+      ],
+      "MAE": 9.576,
+      "RMSE": 21.975,
+      "R2": 0.9049
+    },
+    "lightgbm_calendar_only": {
+      "features": [
+        "zone_id",
+        "hour",
+        "dow",
+        "is_weekend",
+        "month",
+        "day_of_month",
+        "zone_hour_dow_mean"
+      ],
+      "MAE": 7.05,
+      "RMSE": 17.208,
+      "R2": 0.9417
+    },
+    "lightgbm_with_lags": {
+      "features": [
+        "zone_id",
+        "hour",
+        "dow",
+        "is_weekend",
+        "month",
+        "day_of_month",
+        "zone_hour_dow_mean",
+        "lag_1h",
+        "lag_2h",
+        "lag_3h",
+        "lag_24h",
+        "lag_168h",
+        "roll_mean_24h",
+        "roll_mean_168h"
+      ],
+      "MAE": 5.811,
+      "RMSE": 13.255,
+      "R2": 0.9654
+    }
+  },
+  "improvement_over_last_week_baseline_pct": 35.1
+}

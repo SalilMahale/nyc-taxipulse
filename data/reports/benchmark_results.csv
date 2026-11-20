@@ -1,0 +1,11 @@
+experiment,approach,scope,rows,median_seconds,note
+1_single_machine_vs_spark,pandas (single process),full,18999282,2.73,pandas already benefits from column pruning; it is the strongest fair single-machine baseline
+1_single_machine_vs_spark,spark DataFrame local[*],full,18999282,3.47,includes Spark job scheduling overhead; on a 1-core machine Spark cannot parallelise
+4_column_pruning,spark read all 20 columns,full,18999282,2.8,Catalyst still prunes unused columns at plan time; difference shows optimiser effect
+4_column_pruning,spark read 2 columns,full,18999282,2.61,
+2_parquet_vs_csv,spark on Parquet (64.2 MB),1 month,3724889,0.81,
+2_parquet_vs_csv,spark on CSV (417.1 MB),1 month,3724889,4.82,CSV must parse every byte of every row; Parquet reads only the 2 needed columns
+3_mapreduce_vs_dataframe,RDD map + reduceByKey (MapReduce),1 month,3724889,24.49,Python lambdas serialise every row through the JVM<->Python bridge
+3_mapreduce_vs_dataframe,DataFrame groupBy (Catalyst/Tungsten),1 month,3724889,0.78,
+5_core_scaling,spark local[1] (1 cores),full,18999282,2.51,identical when the machine has a single core
+5_core_scaling,spark local[*] (1 cores),full,18999282,2.57,identical when the machine has a single core
